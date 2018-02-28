@@ -95,6 +95,7 @@ function init_manage(){
   update_buttons();
 }
 
+
 // ----------------------------------------------------------------------------------------
 function update_buttons() {
   $(".time-button").each( (_, bb) => {
@@ -182,6 +183,8 @@ function init_task(){
   }
 
   $('.time-button').click(start_click);
+
+  update_buttons();
 }
 
 $(init_manage);

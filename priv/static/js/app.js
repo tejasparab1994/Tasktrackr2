@@ -12392,6 +12392,8 @@ function init_task() {
   }
 
   (0, _jquery2.default)('.time-button').click(start_click);
+
+  update_buttons();
 }
 
 (0, _jquery2.default)(init_manage);
