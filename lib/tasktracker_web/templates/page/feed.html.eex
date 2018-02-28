@@ -1,0 +1,35 @@
+<div class="divider">
+  <h1>Your Assigned tasks</h1>
+</div>
+
+<div class="form-group">
+  <%= link "All Tasks", to: task_path(@conn, :index), class: "btn btn-info btn-xs" %>
+  <%= link "Task Report", to: page_path(@conn, :report), class: "btn btn-success btn-xs" %>
+  <span class="float-right"><%= link "Profile", to: user_path(@conn, :show, @current_user), class: "btn btn-secondary btn-xs" %></span>
+</div>
+<%= Enum.map @tasks, fn task -> %>
+<%= if @current_user.name == task.user.name do %>
+<div class="row">
+  <div class="col">
+    <div class="card bg-light mb-3">
+      <div class="card-block">
+        <h4 class="card-header">Title: <%= task.title %></h4>
+        <div class="card-body">Description: <%= task.body %></div>
+        <div class= "card-body">Completed: <strong><%= task.completed %></strong></div>
+	        <div class="card-body">
+             Time taken: <strong><%= task.time_taken %></strong>
+           </div>
+           <span><%= link "Add timeblock", to: page_path(@conn, :timeblock, task: task), class: "btn btn-default btn-xs" %></span>
+        <!--maybe button -->
+        </div>
+        <div class= "card-block, text-right">
+          <span><%= link "Edit", to: task_path(@conn, :edit, task), class: "btn btn-default btn-xs" %></span>
+          <span><%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<% end %>
+<span><%= link "New Task", to: task_path(@conn, :new), class: "btn btn-warning btn-xs" %></span>

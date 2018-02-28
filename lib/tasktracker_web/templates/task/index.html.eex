@@ -1,0 +1,42 @@
+<div class="divider">
+    <h1>All Tasks</h1>
+</div>
+  <div class="form-group">
+  <%= link "Your Tasks", to: page_path(@conn, :feed), class: "btn btn-info btn-xs" %>
+  <%= link "Task Report", to: page_path(@conn, :report), class: "btn btn-success btn-xs" %>
+  <%= link "All users", to: user_path(@conn, :index), class: "btn btn-primary btn-xs" %>
+  <span class="float-right"><%= link "Profile", to: user_path(@conn, :show, @current_user), class: "btn btn-secondary btn-xs" %></span>
+</div>
+
+
+
+
+<%= Enum.map @tasks, fn task -> %>
+<div class="row">
+  <div class="col">
+    <div class="card bg-light mb-3">
+      <div class="card-block">
+        <div class="card-header">
+            Title: <%= task.title %>
+          <div class="float-right">Assigned to: <%= task.user.name %></div>
+        </div>
+        <div class="card-body">Description: <%= task.body %></div>
+        <div class= "card-body">Completed: <strong><%= task.completed %></strong></div>
+        <div class="card-body">
+	           Time taken: <strong><%= task.time_taken %></strong>
+        </div>
+
+        <!--maybe button -->
+        </div>
+        <div class= "card-block, text-right">
+          <%= if @current_user.name == task.user.name do %>
+          <span><%= link "Edit", to: task_path(@conn, :edit, task), class: "btn btn-info btn-xs" %></span>
+          <span><%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% end %>
+<span><%= link "New Task", to: task_path(@conn, :new), class: "btn btn-warning btn-xs" %></span>

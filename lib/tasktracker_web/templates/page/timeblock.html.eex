@@ -1,0 +1,91 @@
+<script>
+  window.timeblock_path = "<%= timeblock_path(@conn, :index)%>";
+
+  //FIXME: this a security issue
+  window.current_user_id = "<%= @current_user.id %>";
+</script>
+
+<div class="divider">
+<h1>Your selected task: <%= @task.title %></h1>
+</div>
+
+
+<div class="form-group">
+  <%= link "All Tasks", to: task_path(@conn, :index), class: "btn btn-info btn-xs" %>
+  <%= link "Task Report", to: page_path(@conn, :report), class: "btn btn-success btn-xs" %>
+  <span class="float-right"><%= link "Profile", to: user_path(@conn, :show, @current_user), class: "btn btn-secondary btn-xs" %></span>
+</div>
+
+
+<%= if !@task.completed do %>
+<button class = "time-button btn btn-secondary"
+        data-task-id = "<%= @task.id %>"
+        data-user-id = "<%= @current_user.id %>"
+        data-timeblock-id = "<%= @id %>"
+        >
+        Start time
+</button>
+
+
+<h2>Add timeblock:</h2>
+<%= form_for @changeset,  timeblock_path(@conn, :create, @timeblocks), fn f -> %>
+<%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Oops, something went wrong! Please check the errors below.</p>
+  </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :start_time, class: "control-label" %>
+    <%= datetime_select f, :start_time, class: "form-control" %>
+    <div style="color: red">
+    <%= error_tag f, :start_time %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :end_time, class: "control-label" %>
+    <%= datetime_select f, :end_time, class: "form-control" %>
+    <div style="color: red">
+    <%= error_tag f, :end_time %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+  </div>
+  <% end %>
+  <% end %>
+
+
+
+
+
+<div class="table">
+  <h4>List of Timeblocks</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+
+        <th>Task ID</th>
+        <th>User ID</th>
+      </tr>
+    </thead>
+
+    <%= Enum.map @alltimeblocks, fn onetimeblock ->  %>
+    <tbody>
+      <tr>
+        <td><%= onetimeblock.start_time %></td>
+        <td><%= onetimeblock.end_time %></td>
+        <td><%= onetimeblock.task_id %></td>
+        <td><%= onetimeblock.user_id %></td>
+        <td><%= link "Delete", to: timeblock_path(@conn, :delete, onetimeblock.id), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs"%></td>
+      </tr>
+      </tbody>
+      <% end %>
+    </table>
+
+</div>

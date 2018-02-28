@@ -1,0 +1,47 @@
+<div class="divider">
+  <h1>Your Profile</h1>
+</div>
+
+<div class="form-group">
+  <h2>Hello, <%= @user.name %></h2>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card bg-light mb-3">
+      <div class="card-block">
+        <div class="card-header">
+          <h2>
+            Your manager:
+          </h2>
+        </div>
+        <div class="card-body">
+          <!-- <%= if @manager.name != nil do %> -->
+          <h4>  <%= @manager.name %></h4>
+          <!-- <% else %>
+          <h4></h4>
+          <% end %> -->
+        </div>
+      </div>
+    </div>
+    <div class="card bg-light mb-3">
+      <div class="card-block">
+        <div class="card-header">
+          <h2>
+            Your underlings
+          </h2>
+        </div>
+        <div class="card-body">
+          <ul>
+            <%= for client <- @clients do %>
+                <li><%= client.name %> </li>
+            <% end %>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<span><%= link "Edit", to: user_path(@conn, :edit, @user), class: "btn btn-info btn-xs" %></span>
+<span><%= link "Back", to: page_path(@conn, :feed), class: "btn btn-secondary btn-xs" %></span>

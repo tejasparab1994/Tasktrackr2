@@ -1,0 +1,53 @@
+<div class="divider">
+  <h2>Your Friends</h2>
+</div>
+<script>
+  window.manage_path = "<%= manage_path(@conn, :index)%>";
+
+  //FIXME: this a security issue
+  window.current_user_id = "<%= @current_user.id %>";
+</script>
+<div class="form-group">
+  <%= link "Your Tasks", to: page_path(@conn, :feed), class: "btn btn-info btn-xs" %>
+  <%= link "Task Report", to: page_path(@conn, :report), class: "btn btn-success btn-xs" %>
+  <%= link "All Tasks", to: task_path(@conn, :index), class: "btn btn-primary btn-xs" %>
+  <span class="float-right"><%= link "Profile", to: user_path(@conn, :show, @current_user), class: "btn btn-secondary btn-xs" %></span>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>ID</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for user <- @users do %>
+    <tr>
+      <td>
+        <button class = "manage-button btn btn-secondary"
+                data-user-id = "<%= user.id %>"
+                data-manage = "<%= @manages[user.id]%>">
+       </button>
+     </td>
+      <td><%= user.name %></td>
+      <td><%= user.id %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-secondary btn-xs" %></span>
+        <%= if @current_user.name == user.name do %>
+        <span><%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-info btn-xs" %></span>
+        <!-- <span><%= link "Delete", to: user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span> -->
+        <% end %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+
+<span><%= link "New User", to: user_path(@conn, :new), class: "btn btn-primary btn-xs" %></span>
+
+<span><%= link "New Task", to: task_path(@conn, :new), class: "btn btn-warning btn-xs" %></span>

@@ -1,0 +1,43 @@
+<div class="divider">
+  <h1>Task reports</h1>
+</div>
+
+<div class="form-group">
+  <%= link "All Tasks", to: task_path(@conn, :index), class: "btn btn-info btn-xs" %>
+  <%= link "All users", to: user_path(@conn, :index), class: "btn btn-primary btn-xs" %>
+  <span class="float-right"><%= link "Profile", to: user_path(@conn, :show, @current_user), class: "btn btn-secondary btn-xs" %></span>
+</div>
+<div>
+
+  <%= Enum.map @tasks, fn task -> %>
+  <%= Enum.map @clients, fn client -> %>
+  <%= if client.name == task.user.name do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Assigned to</th>
+
+        <th>Completed</th>
+        <th>Time taken</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><%= task.title %></td>
+        <td><%= task.user.name %></td>
+
+        <td><%= task.completed %></td>
+        <td><%= task.time_taken %></td>
+        <td><%= link "Edit", to: task_path(@conn, :edit, task), class: "btn btn-default btn-xs" %></td>
+        <td><%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+  <% end %>
+  <% end %>
+</div>
+
+<span><%= link "New Task", to: task_path(@conn, :new), class: "btn btn-warning btn-xs" %></span>

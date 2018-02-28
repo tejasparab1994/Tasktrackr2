@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col">
+    <div class="divider">
+      <h1>Tasktracker</h1>
+    </div>
+
+    <%= form_tag("/session", method: :post) do %>
+    <div class="card bg-light mb-3">
+      <h4 class="card-header">Login:</h4>
+
+      <div class="form-group text-center">
+        <div class="card-body">
+          Name: <input type="text" name="name">
+        </div>
+
+      </div>
+
+      <div class="form-group text-center">
+        <button class="btn btn-primary btn-xs">Log In</button>
+        <%= link "Register", to: user_path(@conn, :new), class: "btn btn-danger btn-xs" %>
+      </div>
+    </div>
+    <% end %>
+
+  </div>
+</div>
